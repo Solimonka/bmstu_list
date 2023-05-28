@@ -57,7 +57,7 @@ TEST(ListTest, MoveConstructor) {
     ASSERT_EQ(l_list_move.size(), 6);
     for (int i = 0; begin_move != end_move; ++begin_move, ++i) {
         ASSERT_TRUE(*begin_move == i);
-        ASSERT_TRUE(*(begin_move+i) == i);
+        ASSERT_TRUE(l_list_move[i] == i);
     }
 }
 
@@ -128,7 +128,7 @@ TEST(ListTest, Output) {
 
 TEST(ListTest, Insert) {
     bmstu::list<std::string> l_list({"hardcoding", "shitcoding", "schizocoding"});
-    bmstu::list<std::string>::iterator pos = l_list.begin()+1;
+    bmstu::list<std::string>::iterator pos = l_list.begin() + 1;
     ASSERT_THROW(l_list.insert(l_list.end(), "perfectcoding"), std::logic_error);
     l_list.insert(pos, "girlscoding");
     ASSERT_EQ(l_list.size(), 4);
