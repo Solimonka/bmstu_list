@@ -4,13 +4,9 @@
 
 TEST(ListTest, BasicConstructor) {
     bmstu::list<int> l_list;
-    bmstu::list<int>::iterator begin = l_list.begin();
-    bmstu::list<int>::iterator end = l_list.end();
     ASSERT_EQ(l_list.size(), 0);
-    ASSERT_TRUE(begin == end);
-    --begin;
-    --end;
-    ASSERT_TRUE(begin == end);
+    ASSERT_TRUE(l_list.begin() == l_list.end());
+    ASSERT_TRUE(--l_list.begin() == --l_list.end());
 }
 
 TEST(ListTest, Subscript) {
@@ -61,7 +57,7 @@ TEST(ListTest, MoveConstructor) {
     ASSERT_EQ(l_list_move.size(), 6);
     for (int i = 0; begin_move != end_move; ++begin_move, ++i) {
         ASSERT_TRUE(*begin_move == i);
-        ASSERT_TRUE(l_list_move[i] == i);
+        ASSERT_TRUE(*(begin_move+i) == i);
     }
 }
 
@@ -80,50 +76,64 @@ TEST(ListTest, Pushback) {
 TEST(ListTest, Pushfront) {
     bmstu::list<std::string> l_list({"ne", "loh"});
     l_list.push_front("ya");
-    bmstu::list<std::string>::iterator begin = l_list.begin();
     ASSERT_EQ(l_list.size(), 3);
-    ASSERT_TRUE(*begin == "ya");
-    ASSERT_TRUE(*(begin + 1) == "ne");
-    ASSERT_TRUE(*(begin + 2) == "loh");
+    ASSERT_TRUE(l_list[0] == "ya");
+    ASSERT_TRUE(l_list[1] == "ne");
+    ASSERT_TRUE(l_list[2] == "loh");
 }
 
 TEST(ListTest, Clear) {
     bmstu::list<std::string> l_list({"tut", "nichego", "net"});
     l_list.clear();
-    bmstu::list<std::string>::iterator begin = l_list.begin();
-    bmstu::list<std::string>::iterator end = l_list.end();
     ASSERT_EQ(l_list.size(), 0);
-    ASSERT_TRUE(begin == end);
+    ASSERT_TRUE(l_list.begin() == l_list.end());
 }
 
 TEST(ListTest, Swap) {
     bmstu::list<std::string> l_list({"ya", "hochu", "pyat'", "po", "proge"});
     bmstu::list<std::string> l_list_swap({"hotet", "ne", "vredno"});
     l_list.swap(l_list_swap);
-    bmstu::list<std::string>::iterator begin = l_list.begin();
-    bmstu::list<std::string>::iterator begin_swap = l_list_swap.begin();
     ASSERT_EQ(l_list.size(), 3);
     ASSERT_EQ(l_list_swap.size(), 5);
-    ASSERT_TRUE(*begin == "hotet");
-    ASSERT_TRUE(*(begin + 1) == "ne");
-    ASSERT_TRUE(*(begin + 2) == "vredno");
-    ASSERT_TRUE(*begin_swap == "ya");
-    ASSERT_TRUE(*(begin_swap + 1) == "hochu");
-    ASSERT_TRUE(*(begin_swap + 2) == "pyat'");
-    ASSERT_TRUE(*(begin_swap + 3) == "po");
-    ASSERT_TRUE(*(begin_swap + 4) == "proge");
+    ASSERT_TRUE(l_list[0] == "hotet");
+    ASSERT_TRUE(l_list[1] == "ne");
+    ASSERT_TRUE(l_list[2] == "vredno");
+    ASSERT_TRUE(l_list_swap[0] == "ya");
+    ASSERT_TRUE(l_list_swap[1] == "hochu");
+    ASSERT_TRUE(l_list_swap[2] == "pyat'");
+    ASSERT_TRUE(l_list_swap[3] == "po");
+    ASSERT_TRUE(l_list_swap[4] == "proge");
 }
 
-//TEST(ListTest, Substraction) {
-//    bmstu::list arr2d({1, 2, 3, 11, 22, 33, 111, 222, 333}, 3, 3);
-//    bmstu::list matritsa({1, 2, 3, 11, 22, 33, 111, 222, 333}, 3, 3);
-//    bmstu::matrix rezult_substr = arr2d - matritsa;
-//    for (int i = 0; i < 3; ++i) {
-//        for (int j = 0; j < 3; ++j) {
-//            ASSERT_EQ(rezult_substr(i, j), 0);
-//        }
-//    }
-//    bmstu::list fail({1, 2, 3}, 1, 3);
-//    ASSERT_THROW(arr2d - fail, std::logic_error);
-//}
-//
+TEST(ListTest, Compare) {
+    bmstu::list<int> l_list({0, 1, 2, 3, 4, 5});
+    bmstu::list<int> l_list_fail_1({0, 1, 2, 3, 4, 5, 6});
+    bmstu::list<int> l_list_fail_2({0, 1, 2, 3, 4, 6});
+    ASSERT_FALSE(l_list == l_list_fail_1);
+    ASSERT_FALSE(l_list == l_list_fail_2);
+    ASSERT_TRUE(l_list == l_list);
+    ASSERT_TRUE(l_list != l_list_fail_2);
+    ASSERT_TRUE(l_list < l_list_fail_2);
+    ASSERT_TRUE(l_list_fail_2 > l_list);
+    ASSERT_TRUE(l_list <= l_list_fail_2);
+    ASSERT_TRUE(l_list_fail_2 >= l_list);
+}
+
+TEST(ListTest, Output) {
+    bmstu::list<std::string> l_list({"very", "hardcode"});
+    std::stringstream s;
+    s << l_list;
+    ASSERT_STREQ(s.str().c_str(), "{very, hardcode}");
+}
+
+TEST(ListTest, Insert) {
+    bmstu::list<std::string> l_list({"hardcoding", "shitcoding", "schizocoding"});
+    bmstu::list<std::string>::iterator pos = l_list.begin()+1;
+    ASSERT_THROW(l_list.insert(l_list.end(), "perfectcoding"), std::logic_error);
+    l_list.insert(pos, "girlscoding");
+    ASSERT_EQ(l_list.size(), 4);
+    ASSERT_TRUE(l_list[0] == "hardcoding");
+    ASSERT_TRUE(l_list[1] == "shitcoding");
+    ASSERT_TRUE(l_list[2] == "girlscoding");
+    ASSERT_TRUE(l_list[3] == "schizocoding");
+}
