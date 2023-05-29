@@ -334,11 +334,17 @@ namespace bmstu {
         }
 
 
-        void reverse(list &a) {
-
-            return;
+        void reverse() {
+            node *prev = nullptr, *current = head_, *next = nullptr;
+            tail_ = head_;
+            while (current != nullptr) {
+                next = current->next_node;
+                current->next_node = prev;
+                prev = current;
+                current = next;
+            }
+            head_ = prev;
         }
-
 
 
     private:
