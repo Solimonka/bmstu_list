@@ -137,3 +137,12 @@ TEST(ListTest, Insert) {
     ASSERT_TRUE(l_list[2] == "girlscoding");
     ASSERT_TRUE(l_list[3] == "schizocoding");
 }
+
+
+TEST(ListTest, Reverse) {
+    bmstu::list<int> l_list({1, 2, 3, 4, 5, 6, 7, 8, 9});
+    l_list.reverse();
+    bmstu::list<int> l_list_r({9, 8, 7, 6, 5, 4, 3, 2, 1l});
+    ASSERT_EQ(l_list, l_list_r);
+
+}

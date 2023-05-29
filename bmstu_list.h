@@ -333,6 +333,14 @@ namespace bmstu {
             return iterator{new_node};
         }
 
+
+        void reverse(list &a) {
+
+            return;
+        }
+
+
+
     private:
         static bool lexicographical_compare_(const list<T> &l, const list<T> &r) {
             auto fl = l.begin(), fr = r.begin();
