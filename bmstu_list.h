@@ -337,6 +337,8 @@ namespace bmstu {
             return iterator{new_node};
         }
 
+#pragma region delo_bilo_vecherom_delat_bilo_nechego
+
         T pop_back(size_t pos) {
             if (pos > size_ || pos < 0) {
                 throw std::logic_error("lOsEr");
@@ -459,6 +461,8 @@ namespace bmstu {
             }
             return num;
         }
+
+#pragma endregion
 
         void reverse() {
             node *prev = nullptr, *current = head_.get(), *next = nullptr;
