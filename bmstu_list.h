@@ -186,19 +186,19 @@ namespace bmstu {
 
         template<typename Type>
         void push_back(const Type &value) {
-            std::unique_ptr<node> last(tail_->prev_node);
-            std::unique_ptr<node> new_last = std::make_unique<node>(tail_->prev_node, value, tail_.get());
-            tail_->prev_node = new_last.get();
-            last->next_node = new_last.get();
+            node *last = tail_->prev_node;
+            node *new_last = new node(tail_->prev_node, value, tail_.get());
+            tail_->prev_node = new_last;
+            last->next_node = new_last;
             ++size_;
         }
 
         template<typename Type>
         void push_front(const Type &value) {
-            std::unique_ptr<node> first(head_->next_node);
-            std::unique_ptr<node> new_first = std::make_unique<node>(head_.get(), value, head_->next_node);
-            head_->next_node = new_first.get();
-            first->prev_node = new_first.get();
+            node *first = head_->next_node;
+            node *new_first = new node(head_.get(), value, head_->next_node);
+            head_->next_node = new_first;
+            first->prev_node = new_first;
             ++size_;
         }
 
@@ -219,9 +219,9 @@ namespace bmstu {
                 return;
             } else {
                 while (head_->next_node != tail_.get()) {
-                    std::unique_ptr<node> next(head_->next_node);
+                    node *next = head_->next_node;
                     head_->next_node = next->next_node;
-//                    delete next;
+                    delete next;
                 }
                 tail_->prev_node = head_.get();
                 size_ = 0;
@@ -331,35 +331,44 @@ namespace bmstu {
             if (pos.node_->next_node == nullptr) {
                 throw std::logic_error("lOsEr");
             }
-            std::unique_ptr<node> new_node = std::make_unique<node>(pos.node_, value, pos.node_->next_node);
-            pos.node_->next_node = new_node.get();
+            node *new_node = new node(pos.node_, value, pos.node_->next_node);
+            pos.node_->next_node = new_node;
             ++size_;
-            return iterator{new_node.get()};
+            return iterator{new_node};
         }
 
-//        void reverse() {
-//            node *prev = nullptr, *current = head_.get(), *next = nullptr;
-//            tail_ = std::move(head_);
-//            while (current != nullptr) {
-//                next = current->next_node;
-//                current->next_node = prev;
-//                prev = current;
-//                current = next;
-//            }
-//            head_ = prev;
-//        }
+        void reverse() {
+            node *prev = nullptr, *current = head_.get(), *next = nullptr;
+            tail_.release();
+            node *hed = head_.release();
+            node *hvost = hed;
+            while (current != nullptr) {
+                next = current->next_node;
+                current->next_node = prev;
+                current->prev_node = next;
+                prev = current;
+                current = next;
+            }
+            hed = prev;
+            tail_.reset(hvost);
+            head_.reset(hed);
+        }
 
-//        void my_reverse() {
-//            iterator beginn = head_.get();
-//            iterator endd = tail_.get();
-//            iterator current = head_->next_node;
-//            beginn.node_->next_node = endd.node_;
-//            (endd - 1).node_->prev_node = current.node_;
-//            for (int i = 0; beginn != endd; ++beginn, ++i) {
-//                beginn.node_->prev_node = (beginn + 1).node_;
-//                (beginn + 1).node_->next_node = beginn.node_;
-//            }
-//        }
+        void my_reverse() {
+            node *hed = head_.release();
+            node *hvost = tail_.release();
+            iterator begin_ = hed;
+            iterator end_ = hvost;
+            iterator current = hed->next_node;
+            begin_.node_->next_node = end_.node_;
+            (end_ - 1).node_->prev_node = current.node_;
+            for (int i = 0; begin_ != end_; ++begin_, ++i) {
+                begin_.node_->prev_node = (begin_ + 1).node_;
+                (begin_ + 1).node_->next_node = begin_.node_;
+            }
+            tail_.reset(hvost);
+            head_.reset(hed);
+        }
 
     private:
         static bool lexicographical_compare_(const list<T> &l, const list<T> &r) {

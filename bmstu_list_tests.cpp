@@ -146,12 +146,13 @@ TEST(ListTest, Insert) {
     ASSERT_TRUE(l_list[3] == "schizocoding");
 }
 
-//TEST(ListTest, Reverse) {
-//    bmstu::list<int> l_list_0({1, 2, 3, 4, 5, 6, 7, 8, 9});
-//    l_list_0.reverse();
-//    bmstu::list<int> l_list_r({9, 8, 7, 6, 5, 4, 3, 2, 1l});
-//    ASSERT_EQ(l_list_0, l_list_r);
-//    bmstu::list<int> l_list_1({1, 2, 3, 4, 5, 6, 7, 8, 9});
-//    l_list_0.my_reverse();
-//    ASSERT_EQ(l_list_0, l_list_1);
-//}
+TEST(ListTest, Reverse) {
+    bmstu::list<int> l_list_0({1, 2, 3, 4, 5, 6, 7, 8, 9});
+    l_list_0.reverse();
+    bmstu::list<int> l_list_r({9, 8, 7, 6, 5, 4, 3, 2, 1});
+    ASSERT_EQ(l_list_0, l_list_r);
+    l_list_0.push_back(0);
+    bmstu::list<int> l_list_1({0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
+    l_list_0.my_reverse();
+    ASSERT_EQ(l_list_0, l_list_1);
+}
