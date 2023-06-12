@@ -407,19 +407,45 @@ namespace bmstu {
             return tmp;
         }
 
-        iterator find(T value) {
+        size_t find(T value) {
             if (size_ == 0) {
                 throw std::logic_error("lOsEr");
             } else {
-                iterator pos = end();
-                for (iterator i = begin(); i != end(); ++i) {
-                    if (i.node_->value_ == value) {
-                        pos = i;
-                        break;
+                node *pos = head_->next_node;
+                size_t num = 0;
+                while (pos->next_node != nullptr) {
+                    if (pos->value_ == value) {
+                        return num;
                     }
+                    num += 1;
+                    pos = pos->next_node;
                 }
-                return pos;
+                throw std::logic_error("lOsEr");
             }
+        }
+
+        T max() {
+            T max_ = head_->next_node->value_;
+            node *pos = head_->next_node;
+            while (pos != nullptr) {
+                max_ = std::max(pos->value_, max_);
+                pos = pos->next_node;
+            }
+            return max_;
+        }
+
+        list<T> sort() {
+            if constexpr (!std::is_arithmetic_v<T>) {
+                throw std::logic_error("lOsEr");
+            }
+            list<T> result;
+            while (head_->next_node != tail_.get()) {
+                T tmp_ = max();
+                result.push_back(tmp_);
+                pop(find(tmp_));
+            }
+            swap(result);
+            return *this;
         }
 
         void reverse() {

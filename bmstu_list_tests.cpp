@@ -214,11 +214,19 @@ TEST(ListTest, OperatorPlus) {
 
 TEST(ListTest, Find) {
     bmstu::list<int> l_list({1, 2, 3, 4, 5, 6, 7, 8, 9});
-    bmstu::list<int>::iterator it = l_list.begin() + 3;
-    ASSERT_EQ(l_list.find(4), it);
+    ASSERT_EQ(l_list.find(4), 3);
     bmstu::list<int> l_list_f;
     ASSERT_THROW(l_list_f.find(3), std::logic_error);
     bmstu::list<int> l_list_({0, 0, 0, 0, 0});
-    bmstu::list<int>::iterator it_ = l_list_.begin();
-    ASSERT_EQ(l_list_.find(0), it_);
+    ASSERT_EQ(l_list_.find(0), 0);
+    bmstu::list<int> l_list__({1, 2});
+    ASSERT_THROW(l_list__.find(0), std::logic_error);
+}
+
+TEST(ListTest, Sort) {
+    bmstu::list<int> l_list({1, 2, 3, 4, 5, 6, 7, 8, 9});
+    ASSERT_EQ(l_list.max(), 9);
+    l_list.sort();
+    bmstu::list<int> l_list_r = {9, 8, 7, 6, 5, 4, 3, 2, 1};
+    ASSERT_EQ(l_list, l_list_r);
 }
