@@ -186,19 +186,19 @@ namespace bmstu {
 
         template<typename Type>
         void push_back(const Type &value) {
-            node *last = tail_->prev_node;
-            node *new_last = new node(tail_->prev_node, value, tail_.get());
-            tail_->prev_node = new_last;
-            last->next_node = new_last;
+            std::unique_ptr<node> last(tail_->prev_node);
+            std::unique_ptr<node> new_last = std::make_unique<node>(tail_->prev_node, value, tail_.get());
+            tail_->prev_node = new_last.get();
+            last->next_node = new_last.get();
             ++size_;
         }
 
         template<typename Type>
         void push_front(const Type &value) {
-            node *first = head_->next_node;
-            node *new_first = new node(head_.get(), value, head_->next_node);
-            head_->next_node = new_first;
-            first->prev_node = new_first;
+            std::unique_ptr<node> first(head_->next_node);
+            std::unique_ptr<node> new_first = std::make_unique<node>(head_.get(), value, head_->next_node);
+            head_->next_node = new_first.get();
+            first->prev_node = new_first.get();
             ++size_;
         }
 
@@ -219,9 +219,9 @@ namespace bmstu {
                 return;
             } else {
                 while (head_->next_node != tail_.get()) {
-                    node *next = head_->next_node;
+                    std::unique_ptr<node> next(head_->next_node);
                     head_->next_node = next->next_node;
-                    delete next;
+//                    delete next;
                 }
                 tail_->prev_node = head_.get();
                 size_ = 0;
@@ -331,10 +331,10 @@ namespace bmstu {
             if (pos.node_->next_node == nullptr) {
                 throw std::logic_error("lOsEr");
             }
-            node *new_node = new node(pos.node_, value, pos.node_->next_node);
-            pos.node_->next_node = new_node;
+            std::unique_ptr<node> new_node = std::make_unique<node>(pos.node_, value, pos.node_->next_node);
+            pos.node_->next_node = new_node.get();
             ++size_;
-            return iterator{new_node};
+            return iterator{new_node.get()};
         }
 
 //        void reverse() {
