@@ -230,3 +230,9 @@ TEST(ListTest, Sort) {
     bmstu::list<int> l_list_r = {9, 8, 7, 6, 5, 4, 3, 2, 1};
     ASSERT_EQ(l_list, l_list_r);
 }
+
+TEST(ListTest, Count) {
+    bmstu::list<int> l_list({1, 4, 4, 4, 5, 6, 7, 8, 9});
+    ASSERT_EQ(l_list.count(4), 3);
+    ASSERT_EQ(l_list.count(0), 0);
+}

@@ -448,6 +448,18 @@ namespace bmstu {
             return *this;
         }
 
+        size_t count(T value) {
+            iterator it = begin();
+            size_t num = 0;
+            while (it != end()) {
+                if (it.node_->value_ == value) {
+                    num += 1;
+                }
+                ++it;
+            }
+            return num;
+        }
+
         void reverse() {
             node *prev = nullptr, *current = head_.get(), *next = nullptr;
             tail_.release();
