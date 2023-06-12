@@ -186,7 +186,7 @@ TEST(ListTest, Remove) {
     ASSERT_THROW(l_list.remove(0, 10), std::logic_error);
 }
 
-TEST(ListTest, Operator_Equal) {
+TEST(ListTest, OperatorEqual) {
     bmstu::list<int> l_list({1, 2, 3, 4, 5, 6, 7, 8, 9});
     bmstu::list<int> l_list_r({1, 8, 9});
     l_list = l_list_r;
@@ -194,4 +194,12 @@ TEST(ListTest, Operator_Equal) {
     bmstu::list<int> l_list_;
     l_list_ = l_list_r;
     ASSERT_EQ(l_list_, l_list_r);
+}
+
+TEST(ListTest, OperatorConcatenation) {
+    bmstu::list<int> l_list({1, 2, 3, 4, 5, 6, 7, 8, 9});
+    bmstu::list<int> l_list_({1, 8, 9});
+    l_list += l_list_;
+    bmstu::list<int> l_list_r({1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 8, 9});
+    ASSERT_EQ(l_list, l_list_r);
 }

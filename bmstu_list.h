@@ -338,10 +338,10 @@ namespace bmstu {
         }
 
         T pop_back(size_t pos) {
-            iterator it = begin() + pos;
-            if (pos > size_ || it.node_->next_node == nullptr) {
+            if (pos > size_ || pos < 0) {
                 throw std::logic_error("lOsEr");
             }
+            iterator it = begin() + pos;
             T val = it.node_->value_;
             it.node_->next_node->prev_node = it.node_->prev_node;
             it.node_->prev_node->next_node = it.node_->next_node;
@@ -351,10 +351,10 @@ namespace bmstu {
         }
 
         void pop(size_t pos) {
-            iterator it = begin() + pos;
-            if (pos > size_ || it.node_->next_node == nullptr) {
+            if (pos > size_ || pos < 0) {
                 throw std::logic_error("lOsEr");
             }
+            iterator it = begin() + pos;
             it.node_->next_node->prev_node = it.node_->prev_node;
             it.node_->prev_node->next_node = it.node_->next_node;
             delete it.node_;
@@ -387,7 +387,16 @@ namespace bmstu {
                 for (const auto &item: other) {
                     tmp.push_back(item);
                 }
-                swap( tmp);
+                swap(tmp);
+            }
+            return *this;
+        }
+
+        list<T> &operator+=(const list<T> &other) {
+            if (this != &other) {
+                for (const auto &item: other) {
+                    push_back(item);
+                }
             }
             return *this;
         }
