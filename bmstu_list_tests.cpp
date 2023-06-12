@@ -203,3 +203,11 @@ TEST(ListTest, OperatorConcatenation) {
     bmstu::list<int> l_list_r({1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 8, 9});
     ASSERT_EQ(l_list, l_list_r);
 }
+
+TEST(ListTest, OperatorPlus) {
+    bmstu::list<int> l_list({1, 2, 3, 4, 5, 6, 7, 8, 9});
+    bmstu::list<int> l_list_({1, 8, 9});
+    bmstu::list<int> l_list_r = l_list + l_list_;
+    bmstu::list<int> l_list_r_({1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 8, 9});
+    ASSERT_EQ(l_list_r, l_list_r_);
+}

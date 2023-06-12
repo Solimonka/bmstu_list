@@ -401,6 +401,12 @@ namespace bmstu {
             return *this;
         }
 
+        friend list<T> operator+(const list<T> &l, const list<T> &r) {
+            list<T> tmp(l);
+            tmp += r;
+            return tmp;
+        }
+
         void reverse() {
             node *prev = nullptr, *current = head_.get(), *next = nullptr;
             tail_.release();
