@@ -350,6 +350,16 @@ namespace bmstu {
             return val;
         }
 
+        T pop_back() {
+            node *dying_node = tail_->prev_node;
+            T val = dying_node->value_;
+            dying_node->prev_node->next_node = dying_node->next_node;
+            dying_node->next_node->prev_node = dying_node->prev_node;
+            delete dying_node;
+            --size_;
+            return val;
+        }
+
         void reverse() {
             node *prev = nullptr, *current = head_.get(), *next = nullptr;
             tail_.release();
