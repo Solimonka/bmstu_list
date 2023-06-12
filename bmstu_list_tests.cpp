@@ -169,10 +169,10 @@ TEST(ListTest, Popback) {
     ASSERT_EQ(l_list, l_list_r_);
     ASSERT_THROW(l_list.pop_back(90), std::logic_error);
     ASSERT_EQ(l_list.pop_back(), 9);
-    try{
+    try {
         l_list.pop_back(100);
     }
-    catch(const std::logic_error &err){
+    catch (const std::logic_error &err) {
         ASSERT_EQ(err.what(), std::string("lOsEr"));
     }
 }
@@ -184,4 +184,14 @@ TEST(ListTest, Remove) {
     ASSERT_EQ(l_list, l_list_r);
     ASSERT_THROW(l_list.remove(0, 0), std::logic_error);
     ASSERT_THROW(l_list.remove(0, 10), std::logic_error);
+}
+
+TEST(ListTest, Operator_Equal) {
+    bmstu::list<int> l_list({1, 2, 3, 4, 5, 6, 7, 8, 9});
+    bmstu::list<int> l_list_r({1, 8, 9});
+    l_list = l_list_r;
+    ASSERT_EQ(l_list, l_list_r);
+    bmstu::list<int> l_list_;
+    l_list_ = l_list_r;
+    ASSERT_EQ(l_list_, l_list_r);
 }

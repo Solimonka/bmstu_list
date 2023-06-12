@@ -381,6 +381,17 @@ namespace bmstu {
             return *this;
         }
 
+        list<T> &operator=(const list<T> &other) {
+            if (this != &other) {
+                list<T> tmp;
+                for (const auto &item: other) {
+                    tmp.push_back(item);
+                }
+                swap( tmp);
+            }
+            return *this;
+        }
+
         void reverse() {
             node *prev = nullptr, *current = head_.get(), *next = nullptr;
             tail_.release();
