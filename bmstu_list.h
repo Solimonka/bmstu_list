@@ -338,10 +338,10 @@ namespace bmstu {
         }
 
         T pop_back(size_t pos) {
-            if (pos > size_ || (begin() + pos).node_->next_node == nullptr) {
+            iterator it = begin() + pos;
+            if (pos > size_ || it.node_->next_node == nullptr) {
                 throw std::logic_error("lOsEr");
             }
-            iterator it = begin() + pos;
             T val = it.node_->value_;
             it.node_->next_node->prev_node = it.node_->prev_node;
             it.node_->prev_node->next_node = it.node_->next_node;
