@@ -350,6 +350,17 @@ namespace bmstu {
             return val;
         }
 
+        void pop(size_t pos) {
+            iterator it = begin() + pos;
+            if (pos > size_ || it.node_->next_node == nullptr) {
+                throw std::logic_error("lOsEr");
+            }
+            it.node_->next_node->prev_node = it.node_->prev_node;
+            it.node_->prev_node->next_node = it.node_->next_node;
+            delete it.node_;
+            --size_;
+        }
+
         T pop_back() {
             node *dying_node = tail_->prev_node;
             T val = dying_node->value_;
@@ -358,6 +369,16 @@ namespace bmstu {
             delete dying_node;
             --size_;
             return val;
+        }
+
+        list<T> remove(size_t pos1, size_t pos2) {
+            if (pos2 < pos1) {
+                throw std::logic_error("lOsEr");
+            }
+            for (int i = 0; i < pos2 - pos1 + 1; ++i) {
+                pop(pos1);
+            }
+            return *this;
         }
 
         void reverse() {

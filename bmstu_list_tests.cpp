@@ -176,3 +176,10 @@ TEST(ListTest, Popback) {
         ASSERT_EQ(err.what(), std::string("lOsEr"));
     }
 }
+
+TEST(ListTest, Remove) {
+    bmstu::list<int> l_list({1, 2, 3, 4, 5, 6, 7, 8, 9});
+    bmstu::list<int> l_list_r({1, 8, 9});
+    l_list.remove(1, 6);
+    ASSERT_EQ(l_list, l_list_r);
+}
