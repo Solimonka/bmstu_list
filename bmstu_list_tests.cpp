@@ -156,3 +156,16 @@ TEST(ListTest, Reverse) {
     l_list_0.my_reverse();
     ASSERT_EQ(l_list_0, l_list_1);
 }
+
+TEST(ListTest, Popback) {
+    bmstu::list<int> l_list({1, 2, 3, 4, 5, 6, 7, 8, 9});
+    ASSERT_EQ(l_list.pop_back(0), 1);
+    bmstu::list<int> l_list_r({2, 3, 4, 5, 6, 7, 8, 9});
+    ASSERT_EQ(l_list.size(), 8);
+    ASSERT_EQ(l_list, l_list_r);
+    bmstu::list<int> l_list_r_({2, 3, 4, 5, 7, 8, 9});
+    ASSERT_EQ(l_list.pop_back(4), 6);
+    ASSERT_EQ(l_list.size(), 7);
+    ASSERT_EQ(l_list, l_list_r_);
+    ASSERT_THROW(l_list.pop_back(90), std::logic_error);
+}
