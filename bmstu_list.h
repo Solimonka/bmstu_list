@@ -407,6 +407,21 @@ namespace bmstu {
             return tmp;
         }
 
+        iterator find(T value) {
+            if (size_ == 0) {
+                throw std::logic_error("lOsEr");
+            } else {
+                iterator pos = end();
+                for (iterator i = begin(); i != end(); ++i) {
+                    if (i.node_->value_ == value) {
+                        pos = i;
+                        break;
+                    }
+                }
+                return pos;
+            }
+        }
+
         void reverse() {
             node *prev = nullptr, *current = head_.get(), *next = nullptr;
             tail_.release();

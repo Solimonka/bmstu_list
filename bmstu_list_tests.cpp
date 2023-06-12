@@ -211,3 +211,14 @@ TEST(ListTest, OperatorPlus) {
     bmstu::list<int> l_list_r_({1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 8, 9});
     ASSERT_EQ(l_list_r, l_list_r_);
 }
+
+TEST(ListTest, Find) {
+    bmstu::list<int> l_list({1, 2, 3, 4, 5, 6, 7, 8, 9});
+    bmstu::list<int>::iterator it = l_list.begin() + 3;
+    ASSERT_EQ(l_list.find(4), it);
+    bmstu::list<int> l_list_f;
+    ASSERT_THROW(l_list_f.find(3), std::logic_error);
+    bmstu::list<int> l_list_({0, 0, 0, 0, 0});
+    bmstu::list<int>::iterator it_ = l_list_.begin();
+    ASSERT_EQ(l_list_.find(0), it_);
+}
