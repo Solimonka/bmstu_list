@@ -16,7 +16,6 @@ TEST(ListTest, Pushback_) {
     ASSERT_EQ(l_list[0], 1);
 }
 
-
 TEST(ListTest, Subscript) {
     bmstu::list<std::string> l_list({"pamagiti", "vdrug", "ya", "chto", "to", "nachala", "ponimat"});
     l_list[2] = "devochka";
