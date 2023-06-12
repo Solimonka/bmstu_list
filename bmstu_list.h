@@ -17,6 +17,7 @@ namespace bmstu {
         };
 
     public:
+
 #pragma region Iterator
 
         template<typename value_t>
@@ -132,16 +133,18 @@ namespace bmstu {
         };
 
 #pragma endregion
+
         using value_type = T;
         using reference = value_type &;
         using const_reference = const value_type &;
         using iterator = list_iterator<T>;
         using const_iterator = list_iterator<const T>;
+
 #pragma region Constructors
 
-        list() : size_(0), tail_(new node()), head_(new node()) {
-            head_->next_node = tail_;
-            tail_->prev_node = head_;
+        list() : size_(0), tail_(std::make_unique<node>()), head_(std::make_unique<node>()) {
+            head_->next_node = tail_.get();
+            tail_->prev_node = head_.get();
         }
 
         template<typename it>
@@ -178,12 +181,13 @@ namespace bmstu {
         }
 
 #pragma endregion
+
 #pragma region pushs
 
         template<typename Type>
         void push_back(const Type &value) {
             node *last = tail_->prev_node;
-            node *new_last = new node(tail_->prev_node, value, tail_);
+            node *new_last = new node(tail_->prev_node, value, tail_.get());
             tail_->prev_node = new_last;
             last->next_node = new_last;
             ++size_;
@@ -192,7 +196,7 @@ namespace bmstu {
         template<typename Type>
         void push_front(const Type &value) {
             node *first = head_->next_node;
-            node *new_first = new node(head_, value, first);
+            node *new_first = new node(head_.get(), value, head_->next_node);
             head_->next_node = new_first;
             first->prev_node = new_first;
             ++size_;
@@ -206,20 +210,20 @@ namespace bmstu {
 
         ~list() {
             clear();
-            delete tail_;
-            delete head_;
+//            delete tail_;
+//            delete head_;
         }
 
         void clear() {
             if (empty()) {
                 return;
             } else {
-                while (head_->next_node != tail_) {
+                while (head_->next_node != tail_.get()) {
                     node *next = head_->next_node;
                     head_->next_node = next->next_node;
                     delete next;
                 }
-                tail_->prev_node = head_;
+                tail_->prev_node = head_.get();
                 size_ = 0;
             }
         }
@@ -245,7 +249,7 @@ namespace bmstu {
         }
 
         iterator end() noexcept {
-            return iterator{tail_};
+            return iterator{tail_.get()};
         }
 
         const_iterator begin() const noexcept {
@@ -253,7 +257,7 @@ namespace bmstu {
         }
 
         const_iterator end() const noexcept {
-            return const_iterator{tail_};
+            return const_iterator{tail_.get()};
         }
 
         const_iterator cbegin() const noexcept {
@@ -261,7 +265,7 @@ namespace bmstu {
         }
 
         const_iterator cend() const noexcept {
-            return const_iterator{tail_};
+            return const_iterator{tail_.get()};
         }
 
 #pragma endregion
@@ -333,19 +337,29 @@ namespace bmstu {
             return iterator{new_node};
         }
 
+//        void reverse() {
+//            node *prev = nullptr, *current = head_.get(), *next = nullptr;
+//            tail_ = std::move(head_);
+//            while (current != nullptr) {
+//                next = current->next_node;
+//                current->next_node = prev;
+//                prev = current;
+//                current = next;
+//            }
+//            head_ = prev;
+//        }
 
-        void reverse() {
-            node *prev = nullptr, *current = head_, *next = nullptr;
-            tail_ = head_;
-            while (current != nullptr) {
-                next = current->next_node;
-                current->next_node = prev;
-                prev = current;
-                current = next;
-            }
-            head_ = prev;
-        }
-
+//        void my_reverse() {
+//            iterator beginn = head_.get();
+//            iterator endd = tail_.get();
+//            iterator current = head_->next_node;
+//            beginn.node_->next_node = endd.node_;
+//            (endd - 1).node_->prev_node = current.node_;
+//            for (int i = 0; beginn != endd; ++beginn, ++i) {
+//                beginn.node_->prev_node = (beginn + 1).node_;
+//                (beginn + 1).node_->next_node = beginn.node_;
+//            }
+//        }
 
     private:
         static bool lexicographical_compare_(const list<T> &l, const list<T> &r) {
@@ -362,7 +376,9 @@ namespace bmstu {
         }
 
         size_t size_ = 0;
-        node *tail_ = nullptr;
-        node *head_ = nullptr;
+        std::unique_ptr<node> tail_;
+        std::unique_ptr<node> head_;
+//        node *tail_ = nullptr;
+//        node *head_ = nullptr;
     };
 }

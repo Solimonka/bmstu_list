@@ -9,6 +9,14 @@ TEST(ListTest, BasicConstructor) {
     ASSERT_TRUE(--l_list.begin() == --l_list.end());
 }
 
+TEST(ListTest, Pushback_) {
+    bmstu::list<int> l_list;
+    l_list.push_back(1);
+    ASSERT_EQ(l_list.size(), 1);
+    ASSERT_EQ(l_list[0], 1);
+}
+
+
 TEST(ListTest, Subscript) {
     bmstu::list<std::string> l_list({"pamagiti", "vdrug", "ya", "chto", "to", "nachala", "ponimat"});
     l_list[2] = "devochka";
@@ -138,11 +146,12 @@ TEST(ListTest, Insert) {
     ASSERT_TRUE(l_list[3] == "schizocoding");
 }
 
-
 TEST(ListTest, Reverse) {
-    bmstu::list<int> l_list({1, 2, 3, 4, 5, 6, 7, 8, 9});
-    l_list.reverse();
+    bmstu::list<int> l_list_0({1, 2, 3, 4, 5, 6, 7, 8, 9});
+    l_list_0.reverse();
     bmstu::list<int> l_list_r({9, 8, 7, 6, 5, 4, 3, 2, 1l});
-    ASSERT_EQ(l_list, l_list_r);
-
+    ASSERT_EQ(l_list_0, l_list_r);
+//    bmstu::list<int> l_list_1({1, 2, 3, 4, 5, 6, 7, 8, 9});
+//    l_list_0.my_reverse();
+//    ASSERT_EQ(l_list_0, l_list_1);
 }
