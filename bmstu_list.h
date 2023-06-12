@@ -372,7 +372,7 @@ namespace bmstu {
         }
 
         list<T> remove(size_t pos1, size_t pos2) {
-            if (pos2 < pos1) {
+            if (pos2 < pos1 || pos2 - pos1 > size_ || pos1 < 0 || pos2 < 0 || pos2 - pos1 == 0) {
                 throw std::logic_error("lOsEr");
             }
             for (int i = 0; i < pos2 - pos1 + 1; ++i) {

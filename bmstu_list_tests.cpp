@@ -182,4 +182,6 @@ TEST(ListTest, Remove) {
     bmstu::list<int> l_list_r({1, 8, 9});
     l_list.remove(1, 6);
     ASSERT_EQ(l_list, l_list_r);
+    ASSERT_THROW(l_list.remove(0, 0), std::logic_error);
+    ASSERT_THROW(l_list.remove(0, 10), std::logic_error);
 }
