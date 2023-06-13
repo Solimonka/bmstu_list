@@ -273,3 +273,20 @@ TEST(ListTest, Count) {
     bmstu::list<int> l_list_;
     ASSERT_EQ(l_list_.count(4), 0);
 }
+
+TEST(ListTest, Alignment) {
+    bmstu::list<int> l_list({1, 4, 4, 4, 5, 6, 7, 8, 9});
+    bmstu::list<int> l_list_r({4, 4, 4, 4, 4, 4, 4, 4, 4});
+    l_list.alignment(4);
+    ASSERT_EQ(l_list, l_list_r);
+    bmstu::list<int> l_list_;
+    l_list_.alignment(4);
+    bmstu::list<int> l_list__;
+    ASSERT_EQ(l_list_, l_list__);
+    l_list.alignment_2(5);
+    bmstu::list<int> l_list_r2({5, 5, 5, 5, 4, 4, 4, 4, 4});
+    ASSERT_EQ(l_list, l_list_r2);
+    bmstu::list<int> l_list_r3({5, 5, 5, 0, 0, 0, 4, 4, 4});
+    l_list.alignment_3(3, 5, 0);
+    ASSERT_EQ(l_list, l_list_r3);
+}

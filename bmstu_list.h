@@ -462,6 +462,31 @@ namespace bmstu {
             return num;
         }
 
+        void alignment(T value) {
+            node *pos = head_->next_node;
+            while (pos != tail_.get()) {
+                pos->value_ = value;
+                pos = pos->next_node;
+            }
+        }
+
+        void alignment_2(T value) {
+            iterator it = begin();
+            while (it != (begin() + size_ / 2)) {
+                it.node_->value_ = value;
+                ++it;
+            }
+        }
+
+        void alignment_3(size_t pos1, size_t pos2, T value) {
+            iterator it1 = begin() + pos1;
+            iterator it2 = begin() + pos2 + 1;
+            while (it1 != it2) {
+                it1.node_->value_ = value;
+                ++it1;
+            }
+        }
+
 #pragma endregion
 
         void reverse() {
