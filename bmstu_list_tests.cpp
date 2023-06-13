@@ -183,6 +183,9 @@ TEST(ListTest, Remove) {
     ASSERT_EQ(l_list, l_list_r);
     ASSERT_THROW(l_list.remove(0, 0), std::logic_error);
     ASSERT_THROW(l_list.remove(0, 10), std::logic_error);
+    l_list.remove(1, 2);
+    bmstu::list<int> l_list_({1});
+    ASSERT_EQ(l_list, l_list_);
 }
 
 TEST(ListTest, OperatorEqual) {
@@ -190,9 +193,16 @@ TEST(ListTest, OperatorEqual) {
     bmstu::list<int> l_list_r({1, 8, 9});
     l_list = l_list_r;
     ASSERT_EQ(l_list, l_list_r);
+    ASSERT_EQ(l_list.size(), 3);
     bmstu::list<int> l_list_;
     l_list_ = l_list_r;
     ASSERT_EQ(l_list_, l_list_r);
+    ASSERT_EQ(l_list_.size(), 3);
+    bmstu::list<int> l_list_2;
+    l_list = l_list_2;
+    ASSERT_EQ(l_list.size(), 0);
+    ASSERT_TRUE(l_list.begin() == l_list.end());
+    ASSERT_EQ(l_list, l_list_2);
 }
 
 TEST(ListTest, OperatorConcatenation) {
@@ -200,6 +210,9 @@ TEST(ListTest, OperatorConcatenation) {
     bmstu::list<int> l_list_({1, 8, 9});
     l_list += l_list_;
     bmstu::list<int> l_list_r({1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 8, 9});
+    ASSERT_EQ(l_list, l_list_r);
+    bmstu::list<int> l_list_2;
+    l_list += l_list_2;
     ASSERT_EQ(l_list, l_list_r);
 }
 
@@ -209,6 +222,10 @@ TEST(ListTest, OperatorPlus) {
     bmstu::list<int> l_list_r = l_list + l_list_;
     bmstu::list<int> l_list_r_({1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 8, 9});
     ASSERT_EQ(l_list_r, l_list_r_);
+    bmstu::list<int> l_list_2;
+    bmstu::list<int> l_list_2_;
+    bmstu::list<int> l_list_3 = l_list_2 + l_list_2_;
+    ASSERT_EQ(l_list_3, l_list_2);
 }
 
 TEST(ListTest, Find) {
@@ -220,6 +237,8 @@ TEST(ListTest, Find) {
     ASSERT_EQ(l_list_.find(0), 0);
     bmstu::list<int> l_list__({1, 2});
     ASSERT_THROW(l_list__.find(0), std::logic_error);
+    bmstu::list<int> l_list_2({0, 0, 1, 1, 1});
+    ASSERT_EQ(l_list_2.find(1), 2);
 }
 
 TEST(ListTest, Sort) {
@@ -228,10 +247,29 @@ TEST(ListTest, Sort) {
     l_list.sort();
     bmstu::list<int> l_list_r = {9, 8, 7, 6, 5, 4, 3, 2, 1};
     ASSERT_EQ(l_list, l_list_r);
+    bmstu::list<int> l_list_({8, 7, 6, 90, 123, 77777, 0});
+    ASSERT_EQ(l_list_.max(), 77777);
+    l_list_.sort();
+    bmstu::list<int> l_list_r_ = {77777, 123, 90, 8, 7, 6, 0};
+    ASSERT_EQ(l_list_, l_list_r_);
+    bmstu::list<int> l_list_2;
+    bmstu::list<int> l_list_2_;
+    l_list_2.sort();
+    ASSERT_EQ(l_list_2, l_list_2_);
+    bmstu::list<int> l_list_3({9, 9, 9, 10, 9, 9});
+    bmstu::list<int> l_list_3_({10, 9, 9, 9, 9, 9});
+    l_list_3.sort();
+    ASSERT_EQ(l_list_3, l_list_3_);
+    bmstu::list<int> l_list_4({9, 9, 9, 9, 9});
+    bmstu::list<int> l_list_4_({9, 9, 9, 9, 9});
+    l_list_4.sort();
+    ASSERT_EQ(l_list_4, l_list_4_);
 }
 
 TEST(ListTest, Count) {
     bmstu::list<int> l_list({1, 4, 4, 4, 5, 6, 7, 8, 9});
     ASSERT_EQ(l_list.count(4), 3);
     ASSERT_EQ(l_list.count(0), 0);
+    bmstu::list<int> l_list_;
+    ASSERT_EQ(l_list_.count(4), 0);
 }
